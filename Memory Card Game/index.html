@@ -3,13 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Card Game</title>
+  <title>Galaxy Creator</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
-  <h1>Memory Card Matching Game</h1>
-  <div id="game-container"></div>
+  <h1>Galaxy Creator</h1>
+  <div class="controls">
+    <label for="star-size">Star Size:</label>
+    <input type="range" id="star-size" min="1" max="10" value="5">
+    <label for="density">Star Density:</label>
+    <input type="range" id="density" min="1" max="100" value="50">
+  </div>
+  <div id="canvas-container"></div>
 </body>
 </html>

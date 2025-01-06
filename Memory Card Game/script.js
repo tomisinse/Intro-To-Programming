@@ -1,100 +1,63 @@
-let cards = [];
-let flippedCards = [];
-let matchedPairs = 0;
-let cols = 4; // 4x4 grid
-let rows = 4;
-let cardSize = 100;
+let stars = [];
+let starSize = 5;
+let density = 50;
+let bgColor = [0, 0, 0];
 
 function setup() {
-  createCanvas(cols * cardSize, rows * cardSize);
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  initializeCards();
+  const canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('canvas-container');
+  noStroke();
 }
 
 function draw() {
-  background(240);
+  // Background color transitions
+  bgColor[0] = (bgColor[0] + 0.1) % 255;
+  bgColor[1] = (bgColor[1] + 0.05) % 255;
+  bgColor[2] = (bgColor[2] + 0.07) % 255;
+  background(bgColor);
 
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].show();
-  }
+  // Draw stars
+  stars.forEach(star => star.show());
+}
 
-  if (matchedPairs === (cols * rows) / 2) {
-    fill(0);
-    textSize(40);
-    text('You Win!', width / 2, height / 2);
-    noLoop();
+function mouseDragged() {
+  for (let i = 0; i < density / 10; i++) {
+    stars.push(new Star(mouseX + random(-10, 10), mouseY + random(-10, 10), random(starSize - 2, starSize + 2)));
   }
 }
 
 function mousePressed() {
-  for (let i = 0; i < cards.length; i++) {
-    if (cards[i].isClicked(mouseX, mouseY) && !cards[i].flipped) {
-      cards[i].flip();
-      flippedCards.push(cards[i]);
-
-      if (flippedCards.length === 2) {
-        setTimeout(checkMatch, 1000);
-      }
-      break;
-    }
+  for (let i = 0; i < density; i++) {
+    stars.push(new Star(mouseX + random(-50, 50), mouseY + random(-50, 50), random(starSize - 2, starSize + 2)));
   }
 }
 
-function initializeCards() {
-  let values = [];
-  for (let i = 0; i < (cols * rows) / 2; i++) {
-    values.push(i);
-    values.push(i); // Two of each value for pairs
-  }
-
-  values = shuffle(values);
-
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      let card = new Card(col * cardSize, row * cardSize, cardSize, values.pop());
-      cards.push(card);
-    }
-  }
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
-function checkMatch() {
-  if (flippedCards[0].value === flippedCards[1].value) {
-    flippedCards[0].matched = true;
-    flippedCards[1].matched = true;
-    matchedPairs++;
-  } else {
-    flippedCards[0].flip();
-    flippedCards[1].flip();
-  }
-  flippedCards = [];
-}
-
-class Card {
-  constructor(x, y, size, value) {
+// Star Class
+class Star {
+  constructor(x, y, size) {
     this.x = x;
     this.y = y;
     this.size = size;
-    this.value = value;
-    this.flipped = false;
-    this.matched = false;
+    this.color = [random(100, 255), random(100, 255), random(100, 255)];
+    this.alpha = 255;
   }
 
   show() {
-    fill(this.matched || this.flipped ? '#ffc107' : '#007bff');
-    rect(this.x, this.y, this.size, this.size, 8);
-
-    if (this.flipped || this.matched) {
-      fill(0);
-      text(this.value, this.x + this.size / 2, this.y + this.size / 2);
-    }
-  }
-
-  flip() {
-    this.flipped = !this.flipped;
-  }
-
-  isClicked(px, py) {
-    return px > this.x && px < this.x + this.size && py > this.y && py < this.y + this.size;
+    fill(this.color[0], this.color[1], this.color[2], this.alpha);
+    ellipse(this.x, this.y, this.size);
+    this.alpha -= 2; // Fades over time
   }
 }
+
+// Controls
+document.getElementById('star-size').addEventListener('input', (e) => {
+  starSize = e.target.value;
+});
+
+document.getElementById('density').addEventListener('input', (e) => {
+  density = e.target.value;
+});
