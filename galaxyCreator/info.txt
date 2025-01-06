@@ -1,0 +1,15 @@
+Oluwatomisin Samel-Esan
+
+Description:Interactive art piece designed to represent the environment of a galaxy. Background colour gradually changes, shifting through different shades, giving the envirnoment of a contstantly growing galaxy. Size and density of stars can be controlled through the sliders at the top. As mouse is dragged over screen stars appear leaving behind a colourful trail that slowly fades away afterwards. Everything overall adds to the feel of having your own digital galaxy.
+
+How to use: Drag mouse over screen to create images of stars and nebulae just sliders to adjust density and size as you wish
+
+Demo: 
+
+References: 
+- Changing background colour:https://www.reddit.com/r/p5js/comments/qrxjw7/deleted_by_user/
+
+- Generating interactive element shapes: https://www.youtube.com/watch?v=zau6noH8jag
+
+- Generating images through input: https://www.youtube.com/watch?v=4okNCzjIUE0&ab_channel=JasonErdreich
+
